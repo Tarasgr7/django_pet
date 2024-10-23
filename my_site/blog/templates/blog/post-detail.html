@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    {{post.title}}
+{% endblock title %}
+
+{% block css_files %}
+    <link rel="stylesheet" href="{%static "blog/post-detail.css"%}">
+{% endblock css_files %}
+
+{% block content %}
+    <section id="summary">
+        <h2>
+            By {{post.title}}
+        </h2>
+        <div>
+            {% for tag in post_tags %}
+                <span class="tag">{{tag.caption}}</span>
+            {% endfor %}
+        </div>
+        <article>
+            <img src="{{post.image.url}}" alt="{{post.title}}">
+            <address><a href="mailto:{{post.author.email_address}}">{{post.author}}</a></address>
+            <div>
+                Last updated on  <time>{{post.date|date:"d M Y"}}</time>
+            </div>
+        </article>
+    </section>
+    <main>
+        {{post.content|linebreaks}}
+    </main>
+    <section id="comment-form">
+        <h2>Твій коментар</h2>
+        <form >
+            {% for form_field in comment_form %}
+                <div class="form-control">
+                    {{form_field.lable_tag}}
+                    {{form_field}}
+                    {{form_field.errors}}
+                </div>
+            
+            {% endfor %}
+            
+            <button>Зберегти коментар</button>
+        </form>
+
+    </section>
+
+{% endblock content %}
